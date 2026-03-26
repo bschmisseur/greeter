@@ -1,0 +1,23 @@
+##
+# Project:   greeter
+# File:      docker-compose.yml
+# Description:
+#   File used to define and run multi-container Docker applications. It allows you to configure your application's services, networks, and volumes in a single file.
+#
+
+version: '3.8'
+services:
+  dev-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: javascript-dev-server
+    ports:
+      - "8000:8000" # Map container port 8000 to host port 8000
+    volumes:
+      # Mount the local source code into the container for live updates
+      - .:/usr/src/app
+      # Explicitly keep node_modules inside the container volume (if issues with host OS arise)
+      - /usr/src/app/node_modules
+    stdin_open: true # Keep stdin open so you can attach to the container
+    tty: true
